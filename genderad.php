@@ -28,16 +28,14 @@ class site
 	public $guy;
 	public $num_girls;
 	public $num_guys;
-	public $CPC;
 
-	function __construct($sid,$cpc)
+	function __construct($sid)
 	{
 		$this->site_id = $sid;
 		$this->num_guys = 0;
 		$this->num_girls = 0;
 		$this->girl = array('clicks'=>0,'impressions'=>0);
 		$this->guy = array('clicks'=>0,'impressions'=>0);
-		$this->CPC = array("girl" => $cpc['girl'], "guy" => $cpc['guy']);
 	}
 	public function guy_ratio()  #return the ration of number of guys
 	{
@@ -56,9 +54,9 @@ class site
 			return $this->girl['clicks']/$this->girl['impressions'];
 		return 0;
 	}
-	public function eCPM_of($gender) #calculate eCPM
+	public function eCPM_of($gender,$cpc) #calculate eCPM
 	{
-		return 1000 * $this->CTR_of($gender) * $this->CPC[$gender];
+		return 1000 * $this->CTR_of($gender) * $cpc[$gender];
 	}
 }
 
@@ -80,7 +78,7 @@ if($current_device==null)
 	$current_device = new device($deviceid);
 #new site
 if($current_site==null)
-	$current_site = new site($siteid, $adid_cpc);
+	$current_site = new site($siteid);
 
 $user_gender = $current_device->gender;
 $ad_for_girl;  #indicator of showing ad for girls
@@ -100,7 +98,7 @@ else  # case of unknown gender
 	else
 	{
 		#use the site eCPM to decide which ad we going to use
-		if($current_site->eCPM_of('guy') > $current_site->eCPM_of('girl'))
+		if($current_site->eCPM_of('guy',$adid_cpc) > $current_site->eCPM_of('girl',$adid_cpc))
 			$ad_for_girl = false;
 		else
 			$ad_for_girl = true;
