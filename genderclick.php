@@ -21,12 +21,12 @@ else
 $memcache->set($device_key, $current_device);
 $memcache->set($site_key, $current_site);
 
-header("Location: http://www.speeddate.com/?adid=$adid");
+//header("Location: http://www.speeddate.com/?adid=$adid");
 
-/*echo "<br>========== debug info genderclick ===========<br>";
-print_r($devices);
+echo "<br>========== debug info genderclick ===========<br>";
+print_r($current_device);
 echo "<br>";
-print_r($sites);
-print "<br>========== ******** ===========";*/
+print_r($current_site);
+print "<br>========== ******** ===========";
 
 ?>
